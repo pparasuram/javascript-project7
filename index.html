@@ -1,0 +1,129 @@
+<!-- 
+		Name: Prakash Parasuram
+		Date: 11/30/2019
+		Class: CSCI2447, Javascript Fundamentals
+		Project 7
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Whack-A-Mole (CSCI2447)</title>
+
+    <!-- CSS styles: This is for me to worry about; not you. -->
+    <link href="css/game.css" rel="stylesheet" />
+    <!-- Import jQuery -->
+    <script src="js/jquery-3.4.1.js"></script>
+    <script>
+        var score = 0;
+        var seconds = 30;
+        var t;
+        var counter = 0;
+        var xPos = 0;
+        var yPos = 0;
+        var imageId = 0;
+        var firstTimeDeleteMoleFlag = 0;
+        $(document).ready(function () {
+            $("#start_button").click(function (evt) {
+                // alert("you clicked Start!");
+                run();
+                beginGame();
+                runTimer();
+            });
+            // $("#gamespace").on("click","#mole" ,function () {
+            $("#gamespace").on("click",".images" ,function () {
+                    // alert("clicked mole");
+                    incrementScore();
+                // $( this ).hide();
+                $(this).remove();
+                });
+            
+        });
+        function run() {
+            // alert("timer ran!");
+            t = setTimeout("run()", randomTimer());
+            addMole();
+            // deleteMole(); // periodically delete a mole
+        }
+        function runTimer() {
+            // alert("timer ran!");
+            t2 = setTimeout("runTimer()", 1000);
+            decrSeconds();
+        }
+        function randomIntFromInterval(min, max) { // min and max included
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
+        function randomY() {
+            return (randomIntFromInterval(0, 310));
+        };
+        function randomX() {
+            return(randomIntFromInterval(0, 490));
+        };
+        function randomTimer() {
+            return(randomIntFromInterval(0, 2000));
+        };
+        function incrementScore() {
+            score++;
+            $("#score").html(score + ' pts');
+        }
+        function beginGame() {
+            // do this third
+            // alert("you clicked Start!");
+            $("#timer").show();
+            $("body").css("color", "red");
+            $("#gamespace").css("background-color", "yellow");
+            $("#gamespace").css("color", "green");
+        }
+        function stopGame() {
+
+        }
+        function decrSeconds() {
+            if (seconds > 0) {
+                seconds--;
+                stopGame();
+            }
+            var secondsText = seconds + " seconds left";
+            $("#timer").text(secondsText);
+        }
+        function addMole() {
+            xPos = randomX();
+            yPos = randomY();
+            imageId++;
+            // $("#gamespace").append('<img id="mole" class= images src="img/mole.png" style="top:'+yPos+'px;left:'+xPos+'px;" />');
+            $("#gamespace").append('<img id="mole' + imageId + '"' + ' class= images src="img/mole.png" style="top:' + yPos + 'px;left:' + xPos + 'px;" />');
+            t3 = setTimeout("deleteMole(imageId)", randomIntFromInterval(1,seconds*1000));
+        }
+        function deleteMole(deleteImageId) {
+            var element = '#mole' + deleteImageId;
+            // alert(element);
+            $(element).remove(); // <<< this works
+            // 
+        }
+    </script>
+</head>
+  <body>
+
+	<div id="content">
+
+		<h1>Whack-A-Mole</h1>
+		
+		<p>After clicking "start", you will have 30 seconds to click
+		as many moles as you can. The moles appear randomly so be ready! </p>
+		
+		<div id="controls">
+			<span id="score">0 pts</span>
+			<button type="button" id="start_button">Start!</button>
+		</div>
+		
+		<div id="timer">30 seconds left</div>
+		
+		<div id="gamespace">
+
+			
+			
+		</div>
+		
+	</div>
+  </body>
+</html>
