@@ -92,11 +92,22 @@
             imageId++;
             // $("#gamespace").append('<img id="mole" class= images src="img/mole.png" style="top:'+yPos+'px;left:'+xPos+'px;" />');
             $("#gamespace").append('<img id="mole' + imageId + '"' + ' class= images src="img/mole.png" style="top:' + yPos + 'px;left:' + xPos + 'px;" />');
-            t3 = setTimeout("deleteMole(imageId)", randomIntFromInterval(1,seconds*1000));
+            var delay = randomIntFromInterval(1,seconds*1000);
+            /*
+            if (imageId == 1)
+                $("#gamespace").append ("<p>image:"+imageId+ " delay " + delay + " </p>");
+            else
+                $("#gamespace p").replaceWith ("<p>image:"+imageId+ " delay " + delay + " </p>");
+                */
+            // t3 = setTimeout("deleteMole(imageId)",delay );
+            // function(){ startTime() }
+            setTimeout(function(){deleteMole(imageId)},delay );
+            // setTimeout(deleteMole,delay );
         }
         function deleteMole(deleteImageId) {
+            // var deleteImageId = imageId;
             var element = '#mole' + deleteImageId;
-            // alert(element);
+            $("#gamespace").append ("<p>image:"+ element + " </p>");
             $(element).remove(); // <<< this works
             // 
         }
