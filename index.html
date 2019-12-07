@@ -26,21 +26,7 @@
         var firstTimeDeleteMoleFlag = 0;
         $(document).ready(function () {
             $("#start_button").click(function (evt) {
-                // evt.preventDefault();
-                // $(this).val('Please wait ...').attr('disabled','disabled');
-                // $("#start_button").setAttribute("disabled","disabled");
-                // document.getElementById('start_button').setAttribute("disabled","disabled");
-                // document.getElementById('start_button').style.visibility = "hidden";
-                //document.getElementById('start_button').disabled = "true";
-                //('#start_button').attr("disabled", true);
-                // alert("you clicked Start!");
-                initVariables();
-                $("#start_button").unbind();
-                run();
-                beginGame();
-                runTimer();
-                // evt.preventDefault(); // prevent clicking
-                // this.removeAttr('enabled');
+                startEverything();
             });
             // $("#gamespace").on("click","#mole" ,function () {
             $("#gamespace").on("click",".images" ,function () {
@@ -51,6 +37,14 @@
                 });
             
         });
+        function startEverything() {
+                            initVariables();
+                // $("#start_button").unbind();
+                $("#start_button").unbind();
+                run();
+                beginGame();
+                runTimer();
+        }
         function run() {
             // alert("timer ran!");
             if (seconds == 0)
@@ -83,6 +77,7 @@
         function beginGame() {
             // do this third
             // alert("you clicked Start!");
+            $("#score").html(score + ' pts');
             $("#timer").show();
             $("body").css("color", "red");
             $("#gamespace").css("background-color", "yellow");
@@ -94,7 +89,7 @@
             clearTimeout(t);
             clearTimeout(t2);
             clearTimeout(t3);
-            $('#start_button').bind();
+            $('#start_button').bind("click", startEverything);
         }
         function decrSeconds() {
             if (seconds > 0) {
@@ -111,14 +106,6 @@
             // $("#gamespace").append('<img id="mole" class= images src="img/mole.png" style="top:'+yPos+'px;left:'+xPos+'px;" />');
             $("#gamespace").append('<img id="mole' + imageId + '"' + ' class= images src="img/mole.png" style="top:' + yPos + 'px;left:' + xPos + 'px;" />');
             var delay = randomIntFromInterval(1,seconds*1000);
-            /*
-            if (imageId == 1)
-                $("#gamespace").append ("<p>image:"+imageId+ " delay " + delay + " </p>");
-            else
-                $("#gamespace p").replaceWith ("<p>image:"+imageId+ " delay " + delay + " </p>");
-                */
-            // t3 = setTimeout("deleteMole(imageId)",delay );
-            // function(){ startTime() }
             var tempId = imageId;
             t3 = setTimeout(function(){deleteMole(tempId)},delay );
             // setTimeout(deleteMole,delay );
