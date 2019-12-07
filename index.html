@@ -18,7 +18,7 @@
     <script>
         var score = 0;
         var seconds = 30;
-        var t;
+        var t, t2, t3;
         var counter = 0;
         var xPos = 0;
         var yPos = 0;
@@ -26,10 +26,21 @@
         var firstTimeDeleteMoleFlag = 0;
         $(document).ready(function () {
             $("#start_button").click(function (evt) {
+                // evt.preventDefault();
+                // $(this).val('Please wait ...').attr('disabled','disabled');
+                // $("#start_button").setAttribute("disabled","disabled");
+                // document.getElementById('start_button').setAttribute("disabled","disabled");
+                // document.getElementById('start_button').style.visibility = "hidden";
+                //document.getElementById('start_button').disabled = "true";
+                //('#start_button').attr("disabled", true);
                 // alert("you clicked Start!");
+                initVariables();
+                $("#start_button").unbind();
                 run();
                 beginGame();
                 runTimer();
+                // evt.preventDefault(); // prevent clicking
+                // this.removeAttr('enabled');
             });
             // $("#gamespace").on("click","#mole" ,function () {
             $("#gamespace").on("click",".images" ,function () {
@@ -42,6 +53,8 @@
         });
         function run() {
             // alert("timer ran!");
+            if (seconds == 0)
+                return;
             t = setTimeout("run()", randomTimer());
             addMole();
             // deleteMole(); // periodically delete a mole
@@ -76,13 +89,18 @@
             $("#gamespace").css("color", "green");
         }
         function stopGame() {
-
+            $('#start_button').removeAttr('disabled');
+            alert("You scored: " + score + " Points");
+            clearTimeout(t);
+            clearTimeout(t2);
+            clearTimeout(t3);
+            $('#start_button').bind();
         }
         function decrSeconds() {
             if (seconds > 0) {
                 seconds--;
+            } else
                 stopGame();
-            }
             var secondsText = seconds + " seconds left";
             $("#timer").text(secondsText);
         }
@@ -101,15 +119,25 @@
                 */
             // t3 = setTimeout("deleteMole(imageId)",delay );
             // function(){ startTime() }
-            setTimeout(function(){deleteMole(imageId)},delay );
+            var tempId = imageId;
+            t3 = setTimeout(function(){deleteMole(tempId)},delay );
             // setTimeout(deleteMole,delay );
         }
         function deleteMole(deleteImageId) {
             // var deleteImageId = imageId;
             var element = '#mole' + deleteImageId;
-            $("#gamespace").append ("<p>image:"+ element + " </p>");
+            // $("#gamespace").append ("<p>image:"+ element + " </p>");
             $(element).remove(); // <<< this works
             // 
+        }
+        function initVariables() {
+            score = 0;
+            seconds = 30;
+            counter = 0;
+            xPos = 0;
+            yPos = 0;
+            imageId = 0;
+            firstTimeDeleteMoleFlag = 0;
         }
     </script>
 </head>
